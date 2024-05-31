@@ -130,7 +130,6 @@ namespace ActivityCollection {
     ): void {
         visualCountdown(countdownTime)
         startActivity(data1.action, 300)
-        endActivity()
     }
 
     /**
@@ -303,10 +302,5 @@ namespace ActivityCollection {
             }
             basic.pause(10)
         }
-
-    }
-    function endActivity() {
-        basic.showIcon(IconNames.Yes)
-        music.play(music.tonePlayable(523, music.beat(BeatFraction.Double)), music.PlaybackMode.InBackground)
     }
 }
