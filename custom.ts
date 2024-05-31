@@ -1,7 +1,7 @@
 /**
  * Log data to flash storage
  */
-//% block="Activty Logger"
+//% block="Activity Logger"
 //% icon="\uf2a7"
 //% color="#378273"
 namespace ActivityCollection {
@@ -11,13 +11,6 @@ namespace ActivityCollection {
         //% block="full"
         Full
     }
-    let imagesAnimation = [images.createImage(`
-    . . . . .
-    . . . . .
-    . . # . .
-    . . . . .
-    . . . . .
-    `), images.iconImage(IconNames.SmallSquare), images.iconImage(IconNames.Square)]
     let onLogFullHandler: () => void;
     let _disabled = false;
 
@@ -120,12 +113,12 @@ namespace ActivityCollection {
     /**
      * Record an action from the accelerometer
      * @param data1 the name of the action
-     * @param countdown the time in milliseconds before the recording starts
+     * @param countdownTime the time in milliseconds before the recording starts
      */
-    //% block="record $data1|| with countdown $countdown ms"
+    //% block="record $data1|| with countdown $countdownTime ms"
     //% blockId=activityloggerlog
-    //% countdown.shadow=timePicker
-    //% countdown.defl=1000
+    //% countdownTime.shadow=timePicker
+    //% countdownTime.defl=1000
     //% data1.shadow=dataloggercreatemlclass
     //% inlineInputMode="variable"
     //% expandableArgumentMode="toggle"
@@ -133,10 +126,11 @@ namespace ActivityCollection {
     //% weight=100 help=datalogger/log
     export function log(
         data1: ActivityCollection.MLAction,
-        countdown: number = 0
+        countdownTime: number = 0,
     ): void {
-        visualCountdown(countdown)
-        startActivity(data1.action, 80)
+        visualCountdown(countdownTime)
+        startActivity(data1.action, 300)
+        endActivity()
     }
 
     /**
@@ -252,7 +246,7 @@ namespace ActivityCollection {
         basic.clearScreen()
         for (let index = 0; index <= 2; index++) {
             music.play(music.tonePlayable(262, music.beat(BeatFraction.Half)), music.PlaybackMode.InBackground)
-            imagesAnimation[index].showImage(0)
+            basic.showNumber(3-index)
             basic.pause(beepdelta)
         }
         music.play(music.tonePlayable(523, music.beat(BeatFraction.Double)), music.PlaybackMode.InBackground)
@@ -311,5 +305,8 @@ namespace ActivityCollection {
         }
 
     }
-
+    function endActivity() {
+        basic.showIcon(IconNames.Yes)
+        music.play(music.tonePlayable(523, music.beat(BeatFraction.Double)), music.PlaybackMode.InBackground)
+    }
 }
